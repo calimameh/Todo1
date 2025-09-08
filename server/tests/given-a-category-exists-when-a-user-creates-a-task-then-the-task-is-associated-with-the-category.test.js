@@ -11,7 +11,6 @@ const feature = loadFeature(path.resolve(__dirname, 'given-a-category-exists-whe
 
 defineFeature(feature, test => {
   let categoryId;
-  let taskId;
 
   test('Given a category exists, when a user creates a task, then the task is associated with the category.', ({ given, when, then }) => {
     given('a category exists', async () => {
@@ -21,31 +20,34 @@ defineFeature(feature, test => {
           id: 'cat1',
           categoryName: 'Work',
           categoryDescription: 'Work related tasks'
-        });
-      expect(response.status).toBe(200);
+        })
+        .expect(200);
+
       categoryId = response.body.id;
     });
 
     when('a user creates a task', async () => {
-      const response = await request(app)
+      await request(app)
         .post('/api/v1/create-task')
         .send({
           id: 'task1',
-          taskName: 'Finish report',
-          taskDescription: 'Complete the quarterly report',
-          dueDate: '2023-10-15',
+          taskName: 'Buy groceries',
+          taskDescription: 'Buy milk and eggs',
+          dueDate: '2025-09-10',
           priority: 'High',
           categoryId: categoryId
-        });
-      expect(response.status).toBe(200);
-      taskId = response.body.id;
+        })
+        .expect(200);
     });
 
     then('the task is associated with the category', async () => {
       const response = await request(app)
-        .get(`/api/v1/get-task-by-id/${taskId}`);
-      expect(response.status).toBe(200);
-      expect(response.body.categoryId).toBe(categoryId);
+        .get('/api/v1/get-all-tasks')
+        .expect(200);
+
+      const task = response.body.find(task => task.id === 'task1');
+      expect(task).toBeDefined();
+      expect(task.categoryId.id).toBe(categoryId);
     });
   });
 });

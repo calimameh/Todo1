@@ -7,38 +7,46 @@ import app from '../src/bootstrap/app.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const feature = loadFeature(path.resolve(__dirname, './delete-task-given-a-task-exists-when-a-user-deletes-the-task-then-the-task-is-removed-from-the-list.feature'));
+const feature = loadFeature(path.resolve(__dirname, 'given-a-task-exists-when-a-user-deletes-the-task-then-the-task-is-removed-from-the-list.feature'));
 
 defineFeature(feature, test => {
   let taskId;
 
   test('Given a task exists, when a user deletes the task, then the task is removed from the list.', ({ given, when, then }) => {
     given('a task exists', async () => {
-      const response = await request(app)
+      const createTaskResponse = await request(app)
         .post('/api/v1/create-task')
         .send({
           id: 'task1',
-          taskName: 'Finish report',
-          taskDescription: 'Complete the quarterly report',
-          dueDate: '2023-10-15',
+          taskName: 'Buy groceries',
+          taskDescription: 'Buy milk and eggs',
+          dueDate: '2023-10-10',
           priority: 'High',
           categoryId: 'cat1'
-        });
-      expect(response.status).toBe(200);
-      taskId = response.body.id;
+        })
+        .expect(200);
+
+      taskId = createTaskResponse.body.id;
     });
 
     when('a user deletes the task', async () => {
-      const response = await request(app)
+      await request(app)
         .post('/api/v1/delete-task')
-        .send({ id: taskId });
-      expect(response.status).toBe(200);
+        .send({ id: taskId })
+        .expect(200);
     });
 
     then('the task is removed from the list', async () => {
-      const response = await request(app)
-        .get(`/api/v1/get-task-by-id/${taskId}`);
-      expect(response.status).toBe(400);
+      const getAllTasksResponse = await request(app)
+        .get('/api/v1/get-all-tasks')
+        .expect(200);
+
+      const tasks = getAllTasksResponse.body;
+      expect(tasks).not.toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ id: taskId })
+        ])
+      );
     });
   });
 });

@@ -1,6 +1,6 @@
-import Category from '../entity/Category.js';
-import db from '../../infrastructure/db/index.js';
 import { v4 as uuid } from 'uuid';
+import db from '../../infrastructure/db/index.js';
+import Category from '../entity/Category.js';
 
 class CreateCategoryCommand {
   static async execute({ categoryName, categoryDescription }) {
@@ -9,7 +9,7 @@ class CreateCategoryCommand {
       categoryName,
       categoryDescription,
     });
-    await db.insert('categories', category);
+    await db.insert('Category', category);
     return category;
   }
 }

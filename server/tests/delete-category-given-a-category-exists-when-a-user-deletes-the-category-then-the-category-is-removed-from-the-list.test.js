@@ -37,11 +37,7 @@ defineFeature(feature, test => {
         .get('/api/v1/get-all-categorys');
       expect(response.status).toBe(200);
       const categories = response.body;
-      expect(categories).not.toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ id: categoryId })
-        ])
-      );
+      expect(categories.find(category => category.id === categoryId)).toBeUndefined();
     });
   });
 });

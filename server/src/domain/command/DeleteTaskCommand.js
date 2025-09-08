@@ -6,8 +6,8 @@ class DeleteTaskCommand {
     if (!task) {
       throw new Error('Task not found');
     }
-    const success = await db.remove('tasks', id);
-    if (!success) {
+    const deleted = await db.remove('tasks', id);
+    if (!deleted) {
       throw new Error('Failed to delete task');
     }
     return task;

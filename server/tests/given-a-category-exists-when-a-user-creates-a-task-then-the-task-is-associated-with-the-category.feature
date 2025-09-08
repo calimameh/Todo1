@@ -1,4 +1,4 @@
-Feature: Task Management
+Feature: Task creation with category association
 
   Scenario: Given a category exists, when a user creates a task, then the task is associated with the category.
     Given a category exists

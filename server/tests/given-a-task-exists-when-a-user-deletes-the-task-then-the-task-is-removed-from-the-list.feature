@@ -1,4 +1,4 @@
-Feature: Delete Task
+Feature: Task Deletion
 
   Scenario: Given a task exists, when a user deletes the task, then the task is removed from the list.
     Given a task exists

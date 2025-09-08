@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Task API API Specification
-  version: '80'
+  version: '77'
   description: API documentation for the Task API bounded context.
 servers:
   - url: /api/v1
@@ -156,50 +156,6 @@ paths:
                   $ref: '#/components/schemas/Task'
         '400':
           $ref: '#/components/responses/BadRequest'
-  /get-task-by-id/{id}:
-    get:
-      summary: Get Task by ID
-      description: Retrieves data based on the "Get Task by ID" query. This is a synchronous query operation.
-      operationId: getTaskByID
-      tags:
-        - TaskAPI
-      responses:
-        '200':
-          description: Successful retrieval of data.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Task'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-  /get-category-by-id/{id}:
-    get:
-      summary: Get Category by ID
-      description: Retrieves data based on the "Get Category by ID" query. This is a synchronous query operation.
-      operationId: getCategoryByID
-      tags:
-        - TaskAPI
-      responses:
-        '200':
-          description: Successful retrieval of data.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Category'
-        '400':
-          $ref: '#/components/responses/BadRequest'
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
 components:
   schemas:
     Error:
@@ -238,15 +194,15 @@ components:
         taskName:
           type: string
           description: The taskName of the Task.
-          example: Finish report
+          example: Buy groceries
         taskDescription:
           type: string
           description: The taskDescription of the Task.
-          example: Complete the quarterly report
+          example: Buy milk and eggs
         dueDate:
           type: string
           description: The dueDate of the Task.
-          example: '2023-10-15'
+          example: '2023-10-10'
         priority:
           type: string
           description: The priority of the Task.
@@ -256,9 +212,7 @@ components:
           description: The status of the Task.
           example: Pending
         categoryId:
-          type: string
-          description: The categoryId of the Task.
-          example: cat1
+          $ref: '#/components/schemas/Category'
       required:
         - id
         - taskName
@@ -286,13 +240,13 @@ components:
           example: task1
         taskName:
           type: string
-          example: Finish report
+          example: Buy groceries
         taskDescription:
           type: string
-          example: Complete the quarterly report
+          example: Buy milk and eggs
         dueDate:
           type: string
-          example: '2023-10-15'
+          example: '2023-10-10'
         priority:
           type: string
           example: High
@@ -311,13 +265,13 @@ components:
           example: task1
         taskName:
           type: string
-          example: Finish report
+          example: Buy groceries
         taskDescription:
           type: string
-          example: Complete the quarterly report
+          example: Buy milk and eggs
         dueDate:
           type: string
-          example: '2023-10-15'
+          example: '2023-10-10'
         priority:
           type: string
           example: High
