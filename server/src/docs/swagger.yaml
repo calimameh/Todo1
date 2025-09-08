@@ -1,0 +1,383 @@
+openapi: 3.0.3
+info:
+  title: Task API API Specification
+  version: '80'
+  description: API documentation for the Task API bounded context.
+servers:
+  - url: /api/v1
+    description: Development Server
+tags:
+  - name: TaskAPI
+    description: Operations related to the TaskAPI bounded context.
+paths:
+  /create-category:
+    post:
+      summary: Create Category
+      description: Executes the "Create Category" command. ...
+      operationId: createCategory
+      tags:
+        - TaskAPI
+      responses:
+        '200':
+          description: 'OK: The resource was updated successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCategoryRequest'
+  /create-task:
+    post:
+      summary: Create Task
+      description: Executes the "Create Task" command. ...
+      operationId: createTask
+      tags:
+        - TaskAPI
+      responses:
+        '200':
+          description: 'OK: The resource was updated successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskRequest'
+  /update-task:
+    post:
+      summary: Update Task
+      description: Executes the "Update Task" command. ...
+      operationId: updateTask
+      tags:
+        - TaskAPI
+      responses:
+        '200':
+          description: 'OK: The resource was updated successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskRequest'
+  /delete-task:
+    post:
+      summary: Delete Task
+      description: Executes the "Delete Task" command. ...
+      operationId: deleteTask
+      tags:
+        - TaskAPI
+      responses:
+        '200':
+          description: 'OK: The resource was updated successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteTaskRequest'
+  /delete-category:
+    post:
+      summary: Delete Category
+      description: Executes the "Delete Category" command. ...
+      operationId: deleteCategory
+      tags:
+        - TaskAPI
+      responses:
+        '200':
+          description: 'OK: The resource was updated successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCategoryRequest'
+  /get-all-categorys:
+    get:
+      summary: Get All Categorys
+      description: Retrieves data based on the "Get All Categorys" query. This is a synchronous query operation.
+      operationId: getAllCategorys
+      tags:
+        - TaskAPI
+      responses:
+        '200':
+          description: Successful retrieval of data.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /get-all-tasks:
+    get:
+      summary: Get All Tasks
+      description: Retrieves data based on the "Get All Tasks" query. This is a synchronous query operation.
+      operationId: getAllTasks
+      tags:
+        - TaskAPI
+      responses:
+        '200':
+          description: Successful retrieval of data.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /get-task-by-id/{id}:
+    get:
+      summary: Get Task by ID
+      description: Retrieves data based on the "Get Task by ID" query. This is a synchronous query operation.
+      operationId: getTaskByID
+      tags:
+        - TaskAPI
+      responses:
+        '200':
+          description: Successful retrieval of data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+  /get-category-by-id/{id}:
+    get:
+      summary: Get Category by ID
+      description: Retrieves data based on the "Get Category by ID" query. This is a synchronous query operation.
+      operationId: getCategoryByID
+      tags:
+        - TaskAPI
+      responses:
+        '200':
+          description: Successful retrieval of data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: An error occurred.
+    Category:
+      type: object
+      description: Represents a Category in the system.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the Category (primary key).
+          example: cat1
+        categoryName:
+          type: string
+          description: The categoryName of the Category.
+          example: Work
+        categoryDescription:
+          type: string
+          description: The categoryDescription of the Category.
+          example: Work related tasks
+      required:
+        - id
+        - categoryName
+    Task:
+      type: object
+      description: Represents a Task in the system.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the Task (primary key).
+          example: task1
+        taskName:
+          type: string
+          description: The taskName of the Task.
+          example: Finish report
+        taskDescription:
+          type: string
+          description: The taskDescription of the Task.
+          example: Complete the quarterly report
+        dueDate:
+          type: string
+          description: The dueDate of the Task.
+          example: '2023-10-15'
+        priority:
+          type: string
+          description: The priority of the Task.
+          example: High
+        status:
+          type: string
+          description: The status of the Task.
+          example: Pending
+        categoryId:
+          type: string
+          description: The categoryId of the Task.
+          example: cat1
+      required:
+        - id
+        - taskName
+        - categoryId
+    CreateCategoryRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cat1
+        categoryName:
+          type: string
+          example: Work
+        categoryDescription:
+          type: string
+          example: Work related tasks
+      required:
+        - id
+        - categoryName
+    CreateTaskRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          example: task1
+        taskName:
+          type: string
+          example: Finish report
+        taskDescription:
+          type: string
+          example: Complete the quarterly report
+        dueDate:
+          type: string
+          example: '2023-10-15'
+        priority:
+          type: string
+          example: High
+        categoryId:
+          type: string
+          example: cat1
+      required:
+        - id
+        - taskName
+        - categoryId
+    UpdateTaskRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          example: task1
+        taskName:
+          type: string
+          example: Finish report
+        taskDescription:
+          type: string
+          example: Complete the quarterly report
+        dueDate:
+          type: string
+          example: '2023-10-15'
+        priority:
+          type: string
+          example: High
+        status:
+          type: string
+          example: Pending
+        categoryId:
+          type: string
+          example: cat1
+      required:
+        - id
+        - taskName
+        - categoryId
+    DeleteTaskRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          example: task1
+      required:
+        - id
+    DeleteCategoryRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cat1
+      required:
+        - id
+  parameters:
+    CategoryId:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier for the Category.
+      schema:
+        type: string
+    TaskId:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier for the Task.
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: 'Bad Request: The server cannot or will not process the request due to something that is perceived to be a client error.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: 'Not Found: The server can not find the requested resource.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: 'Internal Server Error: The server has encountered a situation it doesn''t know how to handle.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
